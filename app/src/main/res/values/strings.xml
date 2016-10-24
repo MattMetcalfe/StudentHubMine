@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">StudentHub</string>
+    <string name="to_do_list">To-do List</string>
+    <string name="notes">Notes</string>
+    <string name="countdown">Countdown</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="scheduler">Scheduler</string>
+</resources>
