@@ -22,7 +22,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".Notes">
+        <activity android:name=".NotePad">
             <intent-filter>
                 <action android:name="com.example.studenthub.Notes" />
 
