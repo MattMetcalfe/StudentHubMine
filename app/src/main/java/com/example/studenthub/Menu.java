@@ -53,7 +53,7 @@ public class Menu extends AppCompatActivity {
         button_notes.setOnClickListener(
                 new View.OnClickListener(){
                     public void onClick(View v){
-                        Intent intentNotes = new Intent("com.example.studenthub.Notes");
+                        Intent intentNotes = new Intent("com.example.studenthub.NotePad");
                         startActivity(intentNotes);
                     }
                 }

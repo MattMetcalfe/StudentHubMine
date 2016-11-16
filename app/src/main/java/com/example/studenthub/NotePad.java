@@ -3,11 +3,11 @@ package com.example.studenthub;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class Notes extends AppCompatActivity {
+public class NotePad extends AppCompatActivity {
     //ADDED comment for pushing
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_notes);
+        setContentView(R.layout.activity_notepad);
     }
 }
