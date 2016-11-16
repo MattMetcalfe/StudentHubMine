@@ -8,13 +8,13 @@ import java.util.Date;
 public interface ScheduleItem {
 
     //getters
-    String getTitle();
-    Date getDate();
-    Time getEnd();
+    public String getTitle();
+    public Date getDate();
+    public Time getEnd();
 
     //setters
-    void setTitle(String t);
-    void setDate(Date d);
-    void setEnd(Time e);
+    public void setTitle(String t);
+    public void setDate(Date d);
+    public void setEnd(Time e);
 
 }

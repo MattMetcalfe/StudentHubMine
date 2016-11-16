@@ -11,9 +11,9 @@ public class Task implements ScheduleItem{
     //Tasks are displayed in Countdown and Scheduler
 
     //
-    String title;
-    Date date;
-    Time end;
+    private String title;
+    private Date date;
+    private Time end;
     @Override
     public String getTitle() {
         return title;
