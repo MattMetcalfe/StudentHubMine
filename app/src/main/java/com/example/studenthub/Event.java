@@ -10,6 +10,7 @@ import java.util.Date;
 public class Event implements ScheduleItem {
     //Events are created in the calendar and will implement Google Calendar API
     //Tasks are displayed in Scheduler
+    // Making sure we are on the same page.
 
     private String title;
     private Date date;
