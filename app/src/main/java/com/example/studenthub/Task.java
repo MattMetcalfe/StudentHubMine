@@ -8,9 +8,8 @@ import java.util.Date;
  */
 public class Task implements ScheduleItem{
     //Tasks are created in To Do list
-    //Tasks are displayed in Countdown and Scheduler
+    //Tasks are displayed in Countdown
 
-    //
     private String title;
     private Date date;
     private Time end;
