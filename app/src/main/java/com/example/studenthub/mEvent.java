@@ -7,7 +7,7 @@ import java.util.Date;
  * Created by michaelspearing on 11/15/16.
  */
 
-public class Event implements ScheduleItem {
+public class mEvent implements ScheduleItem {
     //Events are created in the calendar and will implement Google Calendar API
     //Events are displayed in Scheduler
     //Making sure we are on the same page.
