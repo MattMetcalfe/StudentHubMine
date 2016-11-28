@@ -13,6 +13,8 @@ public class Menu extends AppCompatActivity {
     private static Button button_notes;
     private static Button button_scheduler;
     private static Button button_todo;
+    private static Button button_signOut;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +25,19 @@ public class Menu extends AppCompatActivity {
         openNotes();
         openScheduler();
         openTodo();
+        openSignOut();
+    }
+
+    public void openSignOut(){
+        button_signOut = (Button)findViewById(R.id.sign_out_button);
+        button_signOut.setOnClickListener(
+                new View.OnClickListener(){
+                    public void onClick(View v){
+                        Intent intent = new Intent("com.example.studenthub.SignOutActivity");
+                        startActivity(intent);
+                    }
+                }
+        );
     }
 
     public void openDashboard(){
