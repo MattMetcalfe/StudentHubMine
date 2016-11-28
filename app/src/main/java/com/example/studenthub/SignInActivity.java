@@ -44,10 +44,6 @@ public class SignInActivity extends AppCompatActivity implements
         findViewById(R.id.sign_in_button).setOnClickListener(this);
         findViewById(R.id.sign_out_button).setOnClickListener(this);
         findViewById(R.id.menu_button).setOnClickListener(this);
-        findViewById(R.id.menu_button).setVisibility(View.GONE);
-        // TODO implement the update UI method to make this pretty
-        //TODO  Also need to have a message for a successful sign out
-
 
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
@@ -61,17 +57,19 @@ public class SignInActivity extends AppCompatActivity implements
                 .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
+        GoogleApiClient_Singleton.getInstance(mGoogleApiClient);
 
         // Set the dimensions of the sign-in button.
         SignInButton signInButton = (SignInButton) findViewById(R.id.sign_in_button);
         signInButton.setSize(SignInButton.SIZE_STANDARD);
+
     }
 
     @Override
     public void onStart() {
         super.onStart();
 
-        OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
+        OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(GoogleApiClient_Singleton.get_GoogleApiClient());
         if (opr.isDone()) {
             // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
             // and the GoogleSignInResult will be available instantly.
@@ -108,30 +106,23 @@ public class SignInActivity extends AppCompatActivity implements
     private void handleSignInResult(GoogleSignInResult result) {
         Log.d(TAG, "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
-            // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
             //TODO Here we need to have a "You have successfully logged in" Message
             //TODO Then a button that says "Continue to Menu" and link to the meny activity
-
-            findViewById(R.id.menu_button).setVisibility(View.VISIBLE);
-
-
-            //Intent intent = new Intent("com.example.studenthub.Menu");
-            //startActivity(intent);
+            updateUI(true);
         } else {
-            // Signed out, show unauthenticated UI.
             // TODO We need to stay on the Sign In Page
             updateUI(false);
         }
     }
 
     private void signIn() {
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(GoogleApiClient_Singleton.get_GoogleApiClient());
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
     private void signOut() {
-        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+        Auth.GoogleSignInApi.signOut(GoogleApiClient_Singleton.get_GoogleApiClient()).setResultCallback(
                 new ResultCallback<Status>() {
                     @Override
                     public void onResult(Status status) {
@@ -142,16 +133,9 @@ public class SignInActivity extends AppCompatActivity implements
                 });
     }
 
-    private void revokeAccess() {
-        Auth.GoogleSignInApi.revokeAccess(mGoogleApiClient).setResultCallback(
-                new ResultCallback<Status>() {
-                    @Override
-                    public void onResult(Status status) {
-                        // [START_EXCLUDE]
-                        updateUI(false);
-                        // [END_EXCLUDE]
-                    }
-                });
+    private void navigateTo(String activity){
+        Intent intent = new Intent("com.example.studenthub." + activity);
+        startActivity(intent);
     }
 
     @Override
@@ -161,6 +145,43 @@ public class SignInActivity extends AppCompatActivity implements
         Log.d(TAG, "onConnectionFailed:" + connectionResult);
     }
 
+    private void updateUI(boolean signedIn) {
+        if (signedIn) {
+            findViewById(R.id.sign_in_button).setVisibility(View.GONE);
+            findViewById(R.id.sign_out_button).setVisibility(View.VISIBLE);
+            findViewById(R.id.menu_button).setVisibility(View.VISIBLE);
+        } else {
+            findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
+            findViewById(R.id.sign_out_button).setVisibility(View.GONE);
+            findViewById(R.id.menu_button).setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.sign_in_button:
+                signIn();
+                break;
+            case R.id.sign_out_button:
+                signOut();
+                break;
+             case R.id.menu_button:
+                 navigateTo("Menu");
+                break;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+// TODO Figure out what these methods do
     private void showProgressDialog() {
         if (mProgressDialog == null) {
             mProgressDialog = new ProgressDialog(this);
@@ -175,38 +196,6 @@ public class SignInActivity extends AppCompatActivity implements
     private void hideProgressDialog() {
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.hide();
-        }
-    }
-
-    private void updateUI(boolean signedIn) {
-        if (signedIn) {
-            findViewById(R.id.sign_in_button).setVisibility(View.GONE);
-            // Question
-            // findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
-        } else {
-            // Question
-            // mStatusTextView.setText(R.string.signed_out);
-
-            findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
-            // Question
-            // findViewById(R.id.sign_out_and_disconnect).setVisibility(View.GONE);
-        }
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.sign_in_button:
-                signIn();
-                System.out.println("Signing in");
-                break;
-            case R.id.sign_out_button:
-                signOut();
-                break;
-             case R.id.menu_button:
-                 Intent intent = new Intent("com.example.studenthub.Menu");
-                 startActivity(intent);
-                break;
         }
     }
 }

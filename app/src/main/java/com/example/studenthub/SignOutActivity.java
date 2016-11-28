@@ -29,31 +29,33 @@ public class SignOutActivity extends AppCompatActivity implements
 
     private static final String TAG = "SingOutActivity";
 
-    // Question
-    private static final int RC_SIGN_IN = 9001;
-
-    private GoogleApiClient mGoogleApiClient;
-    private TextView mStatusTextView;
     private ProgressDialog mProgressDialog;
+    private GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        // Views
-        // Question
-        //mStatusTextView = (TextView) findViewById(R.id.status);
+        GoogleApiClient_Singleton.getInstance(mGoogleApiClient);
 
         // Button listeners
-        findViewById(R.id.sign_out_button).setOnClickListener(this);
-        // Question
-        // findViewById(R.id.disconnect_button).setOnClickListener(this);
+        //findViewById(R.id.sign_out_button).setOnClickListener(this);
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        // Build a GoogleApiClient with access to the Google Sign-In API and the
+        // options specified by gso.
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
     }
 
     @Override
     public void onStart() {
         super.onStart();
+        signOut();
     }
 
     // [START onActivityResult]
@@ -70,7 +72,7 @@ public class SignOutActivity extends AppCompatActivity implements
                     @Override
                     public void onResult(Status status) {
                         // [START_EXCLUDE]
-                        Intent intent = new Intent("com.example.studenthub.Menu");
+                        Intent intent = new Intent("SignInActivity");
                          startActivity(intent);
                         // [END_EXCLUDE]
                     }
