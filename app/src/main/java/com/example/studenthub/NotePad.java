@@ -52,11 +52,6 @@ public class NotePad extends AppCompatActivity {
                             EditText bodyBox = (EditText)findViewById(R.id.noteInput);
                             String title = titleBox.getText().toString();
                             String body = bodyBox.getText().toString();
-
-                            ////TEST//// TEMP
-                            titleBox.setText(body);
-
-
                             //save whatever was in text box into db
                             Note note = new Note(title, body);
                             db.addNote(note);
@@ -90,7 +85,10 @@ public class NotePad extends AppCompatActivity {
                     bodyBox.setText(b, 0, b.length);
                 }
                 else if (id==1){// therefore, clicked "new"
-
+                    char[] t = "".toCharArray();
+                    titleBox.setText(t, 0, t.length);
+                    char[] b = "".toCharArray();
+                    bodyBox.setText(b, 0, b.length);
                 }
                 //else id==0 which is a placeholder -- do nothing.
             }
