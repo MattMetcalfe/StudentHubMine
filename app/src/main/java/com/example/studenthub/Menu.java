@@ -25,19 +25,6 @@ public class Menu extends AppCompatActivity {
         openNotes();
         openScheduler();
         openTodo();
-        openSignOut();
-    }
-
-    public void openSignOut(){
-        button_signOut = (Button)findViewById(R.id.sign_out_button);
-        button_signOut.setOnClickListener(
-                new View.OnClickListener(){
-                    public void onClick(View v){
-                        Intent intent = new Intent("com.example.studenthub.SignOutActivity");
-                        startActivity(intent);
-                    }
-                }
-        );
     }
 
     public void openDashboard(){
