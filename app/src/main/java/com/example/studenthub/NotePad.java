@@ -1,5 +1,6 @@
 package com.example.studenthub;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -52,6 +53,10 @@ public class NotePad extends AppCompatActivity {
                             String title = titleBox.getText().toString();
                             String body = bodyBox.getText().toString();
 
+                            ////TEST//// TEMP
+                            titleBox.setText(body);
+
+
                             //save whatever was in text box into db
                             Note note = new Note(title, body);
                             db.addNote(note);
@@ -68,15 +73,27 @@ public class NotePad extends AppCompatActivity {
             titleBox.setText(error, 0, error.length);
         }
 
-/*        note_nav.setOnItemClickListener(new OnItemClickListener() {
+        note_nav.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id) {
-                Intent intent = new Intent(MainActivity.this, SendMessage.class);
-                String message = "abc";
-                intent.putExtra(EXTRA_MESSAGE, message);
-                startActivity(intent);
+                EditText titleBox = (EditText)findViewById(R.id.titleInput);
+                EditText bodyBox = (EditText)findViewById(R.id.noteInput);
+                //ID = ROW OF NOTE IN DATABASE +2 (id-2 = row in db)
+                //read note from database then display its title and body
+                //need a db method that returns note GIVEN the row number
+                if(id>=2) {
+                    Note note = db.getNote(id - 2);
+                    char[] t = note.getTitle().toCharArray();
+                    titleBox.setText(t, 0, t.length);
+                    char[] b = note.getBody().toCharArray();
+                    bodyBox.setText(b, 0, b.length);
+                }
+                else if (id==1){// therefore, clicked "new"
+
+                }
+                //else id==0 which is a placeholder -- do nothing.
             }
-        });*/
+        });
     }
 }

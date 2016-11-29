@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.math.*;
 
 /**
  * Created by Bailey on 11/27/2016.
@@ -93,12 +94,24 @@ public class NoteDBHandler extends SQLiteOpenHelper {
                 note.setId(cursor.getString(0));
                 note.setTime(cursor.getString(1));
                 note.setTitle(cursor.getString(2));
-                note.setBody(cursor.getString(2));
+                note.setBody(cursor.getString(3));
                 // Adding note to note list
                 noteList.add(note);
             } while (cursor.moveToNext());
         }
         // return contact list
         return noteList;
+    }
+
+    public Note getNote(Long row_num) {
+        List<Note> noteList = new ArrayList<Note>();
+        Note result = new Note();
+
+        Integer r = row_num.intValue();
+
+        noteList = getAllNotes();
+        result = noteList.get(r);
+
+        return result;
     }
 }
