@@ -13,30 +13,20 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".SignInActivity">
-
-            <intent-filter>
-                <action android:name="com.example.studenthub.SignInActivity" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-        <activity android:name=".SignOutActivity">
-            <intent-filter>
-                <action android:name="com.example.studenthub.SignOutActivity" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-
-        <activity android:name=".Menu">
+        <activity android:name=".Landing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="com.example.studenthub.Landing" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".Menu">
             <intent-filter>
                 <action android:name="com.example.studenthub.Menu" />
 
