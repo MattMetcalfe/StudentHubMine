@@ -30,17 +30,16 @@ public class SignOutActivity extends AppCompatActivity implements
     private static final String TAG = "SingOutActivity";
 
     private ProgressDialog mProgressDialog;
-    private GoogleApiClient mGoogleApiClient;
+    private GoogleApiClient mGoogleApiClient = GoogleApiClient_Singleton.get_GoogleApiClient();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        GoogleApiClient_Singleton.getInstance(mGoogleApiClient);
 
         // Button listeners
         //findViewById(R.id.sign_out_button).setOnClickListener(this);
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+       /* GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
 
@@ -49,13 +48,14 @@ public class SignOutActivity extends AppCompatActivity implements
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
+                .build();*/
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        signOut();
+            Intent intent = new Intent("com.example.studenthub.SignInActivity");
+            startActivity(intent);
     }
 
     // [START onActivityResult]

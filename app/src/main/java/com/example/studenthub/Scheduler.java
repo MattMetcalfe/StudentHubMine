@@ -58,14 +58,10 @@ public class Scheduler extends Activity
     static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
     static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
 
-    private static final String BUTTON_TEXT = "Call Google Calendar API";
+    private static final String BUTTON_TEXT = "Get Calendar Events";
     private static final String PREF_ACCOUNT_NAME = "accountName";
-    private static final String[] SCOPES = { CalendarScopes.CALENDAR_READONLY };
+    private static final String[] SCOPES = { CalendarScopes.CALENDAR /* This was CALENDAR_READONLY*/ };
 
-    /**
-     * Create the main activity.
-     * @param savedInstanceState previously saved instance data.
-     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,15 +110,7 @@ public class Scheduler extends Activity
                 .setBackOff(new ExponentialBackOff());
     }
 
-
-
-    /**
-     * Attempt to call the API, after verifying that all the preconditions are
-     * satisfied. The preconditions are: Google Play Services installed, an
-     * account was selected and the device currently has online access. If any
-     * of the preconditions are not satisfied, the app will prompt the user as
-     * appropriate.
-     */
+    // TODO I think this in unncecsary beacause to get to scheduler, they have to sign in
     private void getResultsFromApi() {
         if (! isGooglePlayServicesAvailable()) {
             acquireGooglePlayServices();
@@ -283,10 +271,6 @@ public class Scheduler extends Activity
         return connectionStatusCode == ConnectionResult.SUCCESS;
     }
 
-    /**
-     * Attempt to resolve a missing, out-of-date, invalid or disabled Google
-     * Play Services installation via a user dialog, if possible.
-     */
     private void acquireGooglePlayServices() {
         GoogleApiAvailability apiAvailability =
                 GoogleApiAvailability.getInstance();
@@ -354,9 +338,14 @@ public class Scheduler extends Activity
         private List<String> getDataFromApi() throws IOException {
             // List the next 10 events from the primary calendar.
             DateTime now = new DateTime(System.currentTimeMillis());
+            DateTime future = new DateTime(now.getValue() + 43200000);
             List<String> eventStrings = new ArrayList<String>();
             Events events = mService.events().list("primary")
-                    .setMaxResults(10)
+                    .setMaxResults(50)
+                    //TODO Make an option to implement different time blocks and let the user pick
+                    // TODO Check this with internet
+                    // This is set to 12 hours: 1000*60*60*12
+                    .setTimeMax(future)
                     .setTimeMin(now)
                     .setOrderBy("startTime")
                     .setSingleEvents(true)
@@ -365,13 +354,15 @@ public class Scheduler extends Activity
 
             for (Event event : items) {
                 DateTime start = event.getStart().getDateTime();
+                DateTime end = event.getEnd().getDateTime();
+                String location = event.getLocation();
                 if (start == null) {
-                    // All-day events don't have start times, so just use
-                    // the start date.
-                    start = event.getStart().getDate();
+                    // All-day events don't have start times, so skip them
+                    // start = event.getStart().getDate();
+                    continue;
                 }
                 eventStrings.add(
-                        String.format("%s (%s)", event.getSummary(), start));
+                        String.format("%s (%s) (%s) (%s)", event.getSummary(), start, end, location));
             }
             return eventStrings;
         }
