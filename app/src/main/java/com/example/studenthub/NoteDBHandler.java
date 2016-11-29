@@ -61,22 +61,24 @@ public class NoteDBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public boolean updateNote(Note note){
+    public void updateNote(Note note){//needs to depend on row num
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         //create update entry
         values.put(KEY_TIME, note.getTime());
         values.put(KEY_TITLE, note.getTitle());
         values.put(KEY_BODY,note.getBody());
+        values.put(KEY_ID,note.getId());
         //update old row in master table
-        return ( db.update(TABLE_NAME, values, KEY_ID+" = ?"
-                , new String[]{String.valueOf(note.getId())}) ) >0;
+        db.update(TABLE_NAME, values, KEY_ID+" = ?",
+                new String[] { String.valueOf(note.getId()) });
     }
 
     public void deleteNote(Note note){
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_NAME, KEY_ID+" = ?",
-                new String[]{String.valueOf(note.getId())});
+        db.delete(TABLE_NAME, KEY_ID + " = ?",
+                new String[] { String.valueOf(note.getId()) });
+        indexReset();
         db.close();
     }
 
@@ -113,5 +115,32 @@ public class NoteDBHandler extends SQLiteOpenHelper {
         result = noteList.get(r);
 
         return result;
+    }
+
+    public void indexReset(){
+        String queryCommand = "SELECT * FROM " + TABLE_NAME;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(queryCommand, null);
+        int i =0;
+        // Loop through all rows and populate noteList
+        if (cursor.moveToFirst()) {
+            do {
+                //cols: id, time, title, body
+                ContentValues values = new ContentValues();
+                //create update entry
+                String oldid=cursor.getString(0);
+                values.put(KEY_ID,String.valueOf(i));
+                i++;
+                String timestamp = cursor.getString(1);
+                values.put(KEY_TIME, timestamp);
+                values.put(KEY_TITLE, cursor.getString(2));
+                values.put(KEY_BODY,cursor.getString(3));
+
+                db.update(TABLE_NAME, values, KEY_TIME+" = ?",
+                        new String[] { String.valueOf(timestamp) });
+                // Adding note to note list
+                //noteList.add(note);
+            } while (cursor.moveToNext());
+        }
     }
 }

@@ -1,7 +1,6 @@
 package com.example.studenthub;
 import java.util.Calendar;
 
-import java.util.UUID;
 
 /**
  * Created by michaelspearing on 11/15/16.
@@ -15,21 +14,21 @@ public class Note {
     private String body;
     //Note constructors
     public Note(){
-        id = UUID.randomUUID().toString();
+        id = null;
         revisionTime = Calendar.getInstance().toString();
         title = "New Note";
         body = "";
     }
-
+/*
     public Note(String t){
         id = UUID.randomUUID().toString();
         revisionTime = Calendar.getInstance().toString();
         title = t;
         body = "";
-    }
+    }*/
 
-    public Note(String t, String b){
-        id = UUID.randomUUID().toString();
+    public Note(String t, String b, int row){
+        id = String.valueOf(row);
         revisionTime = Calendar.getInstance().toString();
         title = t;
         body = b;
