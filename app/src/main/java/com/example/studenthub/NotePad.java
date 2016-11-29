@@ -70,7 +70,9 @@ public class NotePad extends AppCompatActivity {
                                     db.addNote(note);
                                     navItems.add(title);
 
-                                    List<Note> all1 = new ArrayList<Note>();
+
+                                    ////PRINTING FOR TESTING ONLY////
+                                    /*List<Note> all1 = new ArrayList<Note>();
                                     all1 = db.getAllNotes();
                                     String print1 = "";
                                     for (int i = 0; i < all1.size(); i++) {
@@ -83,7 +85,7 @@ public class NotePad extends AppCompatActivity {
                                     for (int i = 0; i < all2.size(); i++) {
                                         print2 += all2.get(i).getId();
                                     }
-                                    bodyBox.setText(print1 + "/n/n" + print2);
+                                    bodyBox.setText(print1 + "/n/n" + print2);*/
 
 
                                     underEdit = true;
