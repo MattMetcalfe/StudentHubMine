@@ -2,8 +2,12 @@ package com.example.studenthub;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Bailey on 11/27/2016.
@@ -25,11 +29,11 @@ public class NoteDBHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db){
-        String CREATE_TABLE_COMMAND= "CREATE TABLE " + TABLE_NAME +"("
-                +KEY_ID+" UNIQUE STRING,"
-                +KEY_TIME+" CALENDAR,"
-                +KEY_TITLE+" TEXT,"
-                +KEY_BODY+" TEXT" +")";
+        String CREATE_TABLE_COMMAND= "CREATE TABLE " + TABLE_NAME +" ( "
+                +KEY_ID+" TEXT, "
+                +KEY_TIME+" TEXT, "
+                +KEY_TITLE+" TEXT, "
+                +KEY_BODY+" TEXT" +" )";
 
         db.execSQL(CREATE_TABLE_COMMAND);
     }
@@ -47,7 +51,7 @@ public class NoteDBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(KEY_ID, note.getId());
-        values.put(KEY_TIME, note.getTime().toString());   //time of last revision
+        values.put(KEY_TIME, note.getTime());   //time of last revision
         //cal.tostring format: Wed May 02 20:48:32 EEST 2012
         values.put(KEY_TITLE, note.getTitle());
         values.put(KEY_BODY, note.getBody());
@@ -60,7 +64,7 @@ public class NoteDBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         //create update entry
-        values.put(KEY_TIME, note.getTime().toString());
+        values.put(KEY_TIME, note.getTime());
         values.put(KEY_TITLE, note.getTitle());
         values.put(KEY_BODY,note.getBody());
         //update old row in master table
@@ -73,5 +77,28 @@ public class NoteDBHandler extends SQLiteOpenHelper {
         db.delete(TABLE_NAME, KEY_ID+" = ?",
                 new String[]{String.valueOf(note.getId())});
         db.close();
+    }
+
+    public List<Note> getAllNotes() {
+        List<Note> noteList = new ArrayList<Note>();
+        // Create Query Command
+        String queryCommand = "SELECT * FROM " + TABLE_NAME;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(queryCommand, null);
+        // Loop through all rows and populate noteList
+        if (cursor.moveToFirst()) {
+            do {
+                //cols: id, time, title, body
+                Note note = new Note();
+                note.setId(cursor.getString(0));
+                note.setTime(cursor.getString(1));
+                note.setTitle(cursor.getString(2));
+                note.setBody(cursor.getString(2));
+                // Adding note to note list
+                noteList.add(note);
+            } while (cursor.moveToNext());
+        }
+        // return contact list
+        return noteList;
     }
 }
