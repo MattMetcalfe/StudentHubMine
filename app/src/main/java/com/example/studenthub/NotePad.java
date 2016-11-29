@@ -1,5 +1,6 @@
 package com.example.studenthub;
 
+
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -55,36 +56,45 @@ public class NotePad extends AppCompatActivity {
                             EditText bodyBox = (EditText) findViewById(R.id.noteInput);
                             String title = titleBox.getText().toString();
                             String body = bodyBox.getText().toString();
-                            if (underEdit == false) {   //this is a brand new note
-                                Note note = new Note(title, body, (navItems.size())-2);
-                                db.addNote(note);
-                                navItems.add(title);
-
-                                List<Note> all1 = new ArrayList<Note>();
-                                all1 = db.getAllNotes();
-                                String print1="";
-                                for(int i =0; i< all1.size();i++){
-                                    print1 += all1.get(i).getId();
+                            //no title no body == dont save
+                            //yes title no body == save
+                            //no title yes body == save with title "Untitled"
+                            boolean isempty=false;
+                            if ((body+title) == ""){isempty=true;}
+                            if(isempty==false){
+                                if (title.equals("")) {
+                                    title="Untitled ";
                                 }
-                                db.indexReset();
-                                List<Note> all2 = new ArrayList<Note>();
-                                all2 = db.getAllNotes();
-                                String print2="";
-                                for(int i =0; i< all2.size();i++){
-                                    print2 += all2.get(i).getId();
+                                if (underEdit == false) {   //this is a brand new note
+                                    Note note = new Note(title, body, (navItems.size()) - 2);
+                                    db.addNote(note);
+                                    navItems.add(title);
+
+                                    List<Note> all1 = new ArrayList<Note>();
+                                    all1 = db.getAllNotes();
+                                    String print1 = "";
+                                    for (int i = 0; i < all1.size(); i++) {
+                                        print1 += all1.get(i).getId();
+                                    }
+                                    db.indexReset();
+                                    List<Note> all2 = new ArrayList<Note>();
+                                    all2 = db.getAllNotes();
+                                    String print2 = "";
+                                    for (int i = 0; i < all2.size(); i++) {
+                                        print2 += all2.get(i).getId();
+                                    }
+                                    bodyBox.setText(print1 + "/n/n" + print2);
+
+
+                                    underEdit = true;
+                                    rowUnderEdit = (navItems.size()) - 3;
+                                    adapter.notifyDataSetChanged();
+                                } else {   //an existing note is being edited
+                                    Note note = new Note(title, body, rowUnderEdit);
+                                    db.updateNote(note);
+                                    navItems.set(rowUnderEdit + 2, title);
+                                    adapter.notifyDataSetChanged();
                                 }
-                                bodyBox.setText(print1 +"/n/n"+print2);
-
-
-                                underEdit=true;
-                                rowUnderEdit = (navItems.size())-2;
-                                adapter.notifyDataSetChanged();
-                            }
-                            else{   //an existing note is being edited
-                                Note note = new Note(title, body, rowUnderEdit);
-                                db.updateNote(note);
-                                navItems.set(rowUnderEdit+2, title);
-                                adapter.notifyDataSetChanged();
                             }
                         }
                     }
@@ -133,8 +143,6 @@ public class NotePad extends AppCompatActivity {
                 EditText titleBox = (EditText)findViewById(R.id.titleInput);
                 EditText bodyBox = (EditText)findViewById(R.id.noteInput);
                 //ID = ROW OF NOTE IN DATABASE +2 (id-2 = row in db)
-                //read note from database then display its title and body
-                //need a db method that returns note GIVEN the row number
                 if(id>=2) {
                     Note note = db.getNote(id - 2);
                     char[] t = note.getTitle().toCharArray();
