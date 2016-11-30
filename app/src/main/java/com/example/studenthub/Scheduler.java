@@ -112,7 +112,7 @@ public class Scheduler extends Activity
         mProgress = new ProgressDialog(this);
         mProgress.setMessage("Calling Google Calendar API ...");
 
-        setContentView(activityLayout);
+        setContentView(R.layout.activity_scheduler); //TODO changed this. not sure if it'll mess with google calendar
 
         // Initialize credentials and service object.
         mCredential = GoogleAccountCredential.usingOAuth2(

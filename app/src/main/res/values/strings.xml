@@ -5,4 +5,12 @@
     <string name="countdown">Countdown</string>
     <string name="dashboard">Dashboard</string>
     <string name="scheduler">Scheduler</string>
+    <string name="_12">12</string>
+    <string name="_3">3</string>
+    <string name="_32">3</string>
+    <string name="_6">6</string>
+    <string name="_62">6</string>
+    <string name="_9">9</string>
+    <string name="_92">9</string>
+    <string name="today">Today&#160;&#160;</string>
 </resources>
