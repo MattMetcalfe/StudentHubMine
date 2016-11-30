@@ -62,10 +62,14 @@ public class Scheduler extends Activity
     private static final String BUTTON_TEXT = "Get Calendar Events";
     private static final String PREF_ACCOUNT_NAME = "accountName";
     private static final String[] SCOPES = { CalendarScopes.CALENDAR /* This was CALENDAR_READONLY*/ };
-    private static List<mEvent> allEvents = new ArrayList<mEvent>();
+    private static List<mEvent> allEvents = new ArrayList<>();
 
 
     public static List<mEvent> getEvents(){
+        if(allEvents.isEmpty()){
+
+        }
+
         return(allEvents);
     }
     @Override
@@ -114,6 +118,11 @@ public class Scheduler extends Activity
         mCredential = GoogleAccountCredential.usingOAuth2(
                 getApplicationContext(), Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff());
+        getResultsFromApi();
+    }
+
+    public void updateData(){
+        getResultsFromApi();
     }
 
     private void getResultsFromApi() {
@@ -307,6 +316,7 @@ public class Scheduler extends Activity
      * An asynchronous task that handles the Google Calendar API call.
      * Placing the API calls in their own task ensures the UI stays responsive.
      */
+
     private class MakeRequestTask extends AsyncTask<Void, Void, List<String>> {
         private com.google.api.services.calendar.Calendar mService = null;
         private Exception mLastError = null;
@@ -357,10 +367,14 @@ public class Scheduler extends Activity
             List<Event> items = events.getItems();
 
             for(Event item : items){
+                if(item.getStart().getDateTime() == null){
+                    continue;
+                }
                 mEvent tmpEvent = new mEvent();
-                //tmpEvent.setDate();
-
                 tmpEvent.setTitle(item.getSummary());
+                tmpEvent.setEnd(item.getEnd().getDateTime());
+                tmpEvent.setLocation(item.getLocation());
+                tmpEvent.setStart(item.getStart().getDateTime());
                 allEvents.add(tmpEvent);
             }
 
@@ -394,7 +408,7 @@ public class Scheduler extends Activity
                 mOutputText.setText("No results returned.");
             } else {
                 output.add(0, "Data retrieved using the Google Calendar API:");
-               // mOutputText.setText(TextUtils.join("\n", output));
+                //mOutputText.setText(TextUtils.join("\n", output));
             }
         }
 
