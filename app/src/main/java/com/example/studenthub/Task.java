@@ -6,36 +6,30 @@ import java.util.Date;
 /**
  * Created by Bailey on 11/15/2016.
  */
-public class Task implements ScheduleItem{
-    //Tasks are created in To Do list
-    //Tasks are displayed in Countdown
-
-    private String title;
-    private Date date;
-    private Time end;
-    @Override
-    public String getTitle() {
-        return title;
+public class Task{
+    //task private fields
+    private String id;
+    private String label;
+    //task constructors
+    public Task(){
+        id=null;
+        label="";
     }
-    @Override
-    public Date getDate() {
-        return date;
+    public Task(String lab, String rownum){
+        id=rownum;
+        label=lab;
     }
-    @Override
-    public Time getEnd() {
-        return end;
+    public Task(String lab, int rownum){
+        id=String.valueOf(rownum);
+        label= lab;
     }
-
-    @Override
-    public void setTitle(String t) {
-        this.title = t;
+    //task getters
+    public String getId(){return id;}
+    public String getLabel() {
+        return label;
     }
-    @Override
-    public void setDate(Date d) {
-        this.date =d;
-    }
-    @Override
-    public void setEnd(Time e) {
-        this.end =e;
-    }
+    //task setters
+    public void setId(String i){this.id=i;}
+    public void setId(int i){this.id=String.valueOf(i);}
+    public void setLabel(String l) {this.label = l;}
 }

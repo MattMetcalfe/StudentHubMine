@@ -19,14 +19,6 @@ public class Note {
         title = "New Note";
         body = "";
     }
-/*
-    public Note(String t){
-        id = UUID.randomUUID().toString();
-        revisionTime = Calendar.getInstance().toString();
-        title = t;
-        body = "";
-    }*/
-
     public Note(String t, String b, int row){
         id = String.valueOf(row);
         revisionTime = Calendar.getInstance().toString();
