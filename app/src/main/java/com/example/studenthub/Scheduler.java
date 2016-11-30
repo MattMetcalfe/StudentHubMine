@@ -42,6 +42,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Date;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -61,7 +62,12 @@ public class Scheduler extends Activity
     private static final String BUTTON_TEXT = "Get Calendar Events";
     private static final String PREF_ACCOUNT_NAME = "accountName";
     private static final String[] SCOPES = { CalendarScopes.CALENDAR /* This was CALENDAR_READONLY*/ };
+    private static List<mEvent> allEvents = new ArrayList<mEvent>();
 
+
+    public static List<mEvent> getEvents(){
+        return(allEvents);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,7 +116,6 @@ public class Scheduler extends Activity
                 .setBackOff(new ExponentialBackOff());
     }
 
-    // TODO I think this in unncecsary beacause to get to scheduler, they have to sign in
     private void getResultsFromApi() {
         if (! isGooglePlayServicesAvailable()) {
             acquireGooglePlayServices();
@@ -319,7 +324,7 @@ public class Scheduler extends Activity
          * Background task to call Google Calendar API.
          * @param params no parameters needed for this task.
          */
-        @Override
+       @Override
         protected List<String> doInBackground(Void... params) {
             try {
                 return getDataFromApi();
@@ -335,22 +340,29 @@ public class Scheduler extends Activity
          * @return List of Strings describing returned events.
          * @throws IOException
          */
+
         private List<String> getDataFromApi() throws IOException {
             // List the next 10 events from the primary calendar.
             DateTime now = new DateTime(System.currentTimeMillis());
-            DateTime future = new DateTime(now.getValue() + 43200000);
+            DateTime future = new DateTime(now.getValue() + 604800000);
+
+            allEvents.clear();
             List<String> eventStrings = new ArrayList<String>();
             Events events = mService.events().list("primary")
-                    .setMaxResults(50)
-                    //TODO Make an option to implement different time blocks and let the user pick
-                    // TODO Check this with internet
-                    // This is set to 12 hours: 1000*60*60*12
                     .setTimeMax(future)
                     .setTimeMin(now)
                     .setOrderBy("startTime")
                     .setSingleEvents(true)
                     .execute();
             List<Event> items = events.getItems();
+
+            for(Event item : items){
+                mEvent tmpEvent = new mEvent();
+                //tmpEvent.setDate();
+
+                tmpEvent.setTitle(item.getSummary());
+                allEvents.add(tmpEvent);
+            }
 
             for (Event event : items) {
                 DateTime start = event.getStart().getDateTime();
@@ -364,6 +376,7 @@ public class Scheduler extends Activity
                 eventStrings.add(
                         String.format("%s (%s) (%s) (%s)", event.getSummary(), start, end, location));
             }
+
             return eventStrings;
         }
 
@@ -381,7 +394,7 @@ public class Scheduler extends Activity
                 mOutputText.setText("No results returned.");
             } else {
                 output.add(0, "Data retrieved using the Google Calendar API:");
-                mOutputText.setText(TextUtils.join("\n", output));
+               // mOutputText.setText(TextUtils.join("\n", output));
             }
         }
 
