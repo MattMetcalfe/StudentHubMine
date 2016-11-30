@@ -20,35 +20,23 @@
         android:layout_centerHorizontal="true"
         android:textSize="60dp"
         android:textColor="@color/common_google_signin_btn_text_dark"
-        android:textStyle="bold" />
-
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/CheckList"
-        android:textAlignment="center"
-        android:choiceMode="singleChoice"
-        android:layout_alignLeft="@+id/button"
-        android:layout_alignStart="@+id/button"
-        android:layout_below="@+id/todoHeading"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_above="@+id/editText"
-        android:paddingBottom="15dp" />
+        android:textStyle="bold"
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentStart="false" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="ADD TASK"
-        android:id="@+id/button"
+        android:id="@+id/AddTaskButton"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/editText"
-        android:layout_above="@+id/button"
+        android:id="@+id/NewTaskInput"
+        android:layout_above="@+id/AddTaskButton"
         android:layout_alignRight="@+id/todoHeading"
         android:layout_alignEnd="@+id/todoHeading"
         android:layout_alignLeft="@+id/todoHeading"
