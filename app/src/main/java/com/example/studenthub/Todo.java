@@ -29,11 +29,31 @@ public class Todo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_todo);
 
-       final TaskDBHandler db = new TaskDBHandler(this);                       //db = task database
-       // final Button AddButton = (Button)findViewById(R.id.AddTaskButton);      //AddButton = button to save new task
-       // final EditText TaskInput = (EditText) findViewById(R.id.NewTaskInput);  //TaskInput = text box to enter new task
-       final List<Task> taskHistory = db.getAllTasks();
+     /*  final TaskDBHandler db = new TaskDBHandler(this);    //db = task database
+       final List<Task> taskHistory = db.getAllTasks();     //taskHistory = list of all tasks in db
 //TODO -- PRINT ALL TASKS FROM DATA BASE ON CREATE
+        for (int t =0; t<taskHistory.size();t++){
+            Task task = taskHistory.get(t);
+            CheckBox chbx = new CheckBox(getApplicationContext());
+            String inp = task.getLabel();
+            chbx.setText(task.getLabel());
+            // chbx.setText(String.valueOf(db.getAllTasks().size()));
+            chbx.setChecked(false);
+            chbx.setOnClickListener(
+                    new View.OnClickListener(){
+                        public void onClick(View v){
+                            //delete from db
+                            db.deleteTask(task);
+                            //remove from linear layout
+                            linearlayout.removeView(chbx);
+                        }
+                    }
+            );
+            //chbx.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            chbx.setTextSize(25);
+            chbx.setTextColor(Color.parseColor("#ffffff"));
+            linearlayout.addView(chbx);
+        }*/
 //////////////////////////MASTER LINEAR LAYOUT////////////////////////
         final LinearLayout masterLinear = new LinearLayout(this);
         LinearLayout.LayoutParams mlp = new LinearLayout.LayoutParams(
@@ -59,7 +79,7 @@ public class Todo extends AppCompatActivity {
         scrollview.setLayoutParams(scrollparams);
         scrollview.setFillViewport(true);
         scrollview.setBackgroundColor(Color.parseColor("#808fed"));
-
+        linearlayout.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         scrollview.addView(linearlayout);
 ///////////////////TITLE TextView//////////////////////////////////
         TextView title = new TextView(this);
@@ -73,6 +93,29 @@ public class Todo extends AppCompatActivity {
         TaskInput.setTextColor(Color.parseColor("#ffffff"));
         TaskInput.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         TaskInput.setTextSize(20);
+//////////////////////////////PRINT ALL TASKS CURRENTLY IN DB/////////////////////////////
+        final TaskDBHandler db = new TaskDBHandler(this);    //db = task database
+        final List<Task> taskHistory = db.getAllTasks();     //taskHistory = list of all tasks in db
+        //PRINT ALL TASKS FROM DATA BASE ON CREATE
+        for (int t =0; t<taskHistory.size();t++){
+            final Task dbTask = taskHistory.get(t);
+            final CheckBox dbChbx = new CheckBox(getApplicationContext());
+            String dbInp = dbTask.getLabel();
+            dbChbx.setText(dbInp);
+            dbChbx.setChecked(false);
+            dbChbx.setOnClickListener(
+                    new View.OnClickListener(){
+                        public void onClick(View v){
+                            db.deleteTask(dbTask);
+                            linearlayout.removeView(dbChbx);
+                        }
+                    }
+            );
+            //chbx.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            dbChbx.setTextSize(25);
+            dbChbx.setTextColor(Color.parseColor("#ffffff"));
+            linearlayout.addView(dbChbx);
+        }
 ////////////////////SAVE TASK Button////////////////////////////////
         Button AddButton = new Button(this);
         AddButton.setText("ADD TASK");
@@ -98,7 +141,7 @@ public class Todo extends AppCompatActivity {
                                     }
                                 }
                         );
-                        chbx.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                        //chbx.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                         chbx.setTextSize(25);
                         chbx.setTextColor(Color.parseColor("#ffffff"));
                         linearlayout.addView(chbx);
@@ -106,7 +149,6 @@ public class Todo extends AppCompatActivity {
                     }
                 }
         );
-
 ///////////////////ADD ELEMENTS TO MASTER LAYOUT//////////////////
         masterLinear.addView(title);
         masterLinear.addView(scrollview);
