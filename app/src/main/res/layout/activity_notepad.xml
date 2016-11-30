@@ -55,6 +55,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
+        android:layout_gravity="bottom|end"
         android:layout_toEndOf="@+id/NoteNavigation" />
 
     <ListView
@@ -70,6 +71,7 @@
         android:choiceMode="singleChoice"
         android:scrollingCache="false"
         android:smoothScrollbar="true"
+        android:isScrollContainer="false"
         android:textAlignment="center"
         android:drawSelectorOnTop="false"
         android:divider="@color/background_floating_material_dark"
