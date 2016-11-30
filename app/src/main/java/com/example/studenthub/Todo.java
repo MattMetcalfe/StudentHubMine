@@ -65,12 +65,14 @@ public class Todo extends AppCompatActivity {
         TextView title = new TextView(this);
         title.setText("TO DO LIST:");
         title.setTextSize(60);
-     //   title.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        title.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         title.setTextColor(Color.parseColor("#ffffff"));
 ////////////////////TASK INPUT EditText/////////////////////////////
         final EditText TaskInput = new EditText(this);
         TaskInput.setHint("click to enter new task");
-      //  TaskInput.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        TaskInput.setTextColor(Color.parseColor("#ffffff"));
+        TaskInput.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        TaskInput.setTextSize(20);
 ////////////////////SAVE TASK Button////////////////////////////////
         Button AddButton = new Button(this);
         AddButton.setText("ADD TASK");
@@ -83,7 +85,6 @@ public class Todo extends AppCompatActivity {
                         final Task task = new Task(inp,taskHistory.size());
                         taskHistory.add(task);
                         db.addTask(task);
-                        //create a cb and add to layout
                         chbx.setText(task.getLabel());
                        // chbx.setText(String.valueOf(db.getAllTasks().size()));
                         chbx.setChecked(false);
@@ -97,10 +98,11 @@ public class Todo extends AppCompatActivity {
                                     }
                                 }
                         );
-                        //   cb.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                        chbx.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                         chbx.setTextSize(25);
                         chbx.setTextColor(Color.parseColor("#ffffff"));
                         linearlayout.addView(chbx);
+                        TaskInput.setText("");
                     }
                 }
         );
