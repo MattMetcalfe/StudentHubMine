@@ -2,6 +2,7 @@ package com.example.studenthub;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,14 +31,12 @@ import com.google.api.services.calendar.model.Events;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-// ToDo Make the call to the google API clear the previous one
 public class Countdown extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_countdown);
-
+        // Setting up the
         List<mEvent> mevents = Scheduler.getEvents();
 
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
@@ -52,6 +51,12 @@ public class Countdown extends AppCompatActivity {
         pageLayout.setLayoutParams(lp);
         pageLayout.setOrientation(LinearLayout.VERTICAL);
         pageLayout.setPadding(16, 16, 16, 16);
+        TextView title = new TextView(this);
+        title.setTextSize(60);
+        title.setTextColor(Color.parseColor("#FFFFFF"));
+        title.setText("COUNTDOWN");
+        title.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        pageLayout.addView(title);
 
 
         Button mRefreshButton = new Button(this);
@@ -91,26 +96,26 @@ public class Countdown extends AppCompatActivity {
             dispText.setText(thisEvent.getTitle());
             if(dispText.getText().length() > 30){
                 String cut = (String)dispText.getText();
-                cut = cut.substring(0,29);
+                cut = cut.substring(0,28);
                 dispText.setText(cut);
             }
             //activityLayout.addView(dispText);
+            dispText.setTextColor(Color.parseColor("#FFFFFF"));
+            dispText.setTextSize(20);
             row.addView(dispText);
 
             TextView dispVal = new TextView(this);
-            //dispVal.setLayoutParams(tlp);
             dispVal.setGravity(Gravity.RIGHT);
-            //dispVal.setPadding(16, 16, 16, 16);
-            //dispText.setVerticalScrollBarEnabled(true);
-            //dispText.setMovementMethod(new ScrollingMovementMethod());
             dispVal.setText(thisEvent.getTimeTill());
-            //activityLayout.addView(dispText);
+            dispVal.setTextColor(Color.parseColor("#FFFFFF"));
+            dispVal.setTextSize(20);
             row.addView(dispVal);
             tableLayout.addView(row);
         }
 
         sc.addView(tableLayout);
         pageLayout.addView(sc);
+        pageLayout.setBackgroundColor(Color.parseColor("#808fed"));
         setContentView(pageLayout);
 
     }

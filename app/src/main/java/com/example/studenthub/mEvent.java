@@ -53,26 +53,26 @@ public class mEvent {
         miliSec = miliSec - System.currentTimeMillis();
         int days = (int) (miliSec / (SEC_DAYS));
         if(days != 0){
-            timeTill += days + " days ";
+            timeTill += days + " d ";
         }
 
         miliSec = miliSec - (days * (SEC_DAYS));
         int hours = (int) (miliSec / (SEC_HOURS));
         if(hours != 0){
-            timeTill += hours + " hours ";
+            timeTill += hours + " h ";
         }
 
         miliSec = miliSec - (hours * SEC_HOURS);
         int mins = (int) ((miliSec / SEC_MIN));
         if(mins != 0){
-            timeTill += mins + " min ";
+            timeTill += mins + " m ";
         }
 
-        miliSec = miliSec - (mins * SEC_MIN);
+        /*miliSec = miliSec - (mins * SEC_MIN);
         int secs = (int) (miliSec / SEC_SEC);
         if(secs != 0){
             timeTill += secs + " sec";
-        }
+        }*/
 
         return(timeTill);
     }

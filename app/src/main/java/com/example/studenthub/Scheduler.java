@@ -66,10 +66,6 @@ public class Scheduler extends Activity
 
 
     public static List<mEvent> getEvents(){
-        if(allEvents.isEmpty()){
-
-        }
-
         return(allEvents);
     }
     @Override
@@ -118,10 +114,6 @@ public class Scheduler extends Activity
         mCredential = GoogleAccountCredential.usingOAuth2(
                 getApplicationContext(), Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff());
-        getResultsFromApi();
-    }
-
-    public void updateData(){
         getResultsFromApi();
     }
 
