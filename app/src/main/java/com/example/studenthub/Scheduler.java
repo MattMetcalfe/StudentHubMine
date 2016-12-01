@@ -41,6 +41,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -206,24 +209,29 @@ public class Scheduler extends Activity
     }
 
     private int getPixel(long start){
-        long time = (int)(start- now.getValue()) /(int)SEC_DAYS;
-         int days = (int) (time / (SEC_DAYS));
-        time -= days*SEC_DAYS;
-        int hours = (int) (time / SEC_HOURS);
-        time -= hours * SEC_HOURS;
-        int  mins = (int) (time / SEC_MIN);
-         return (220 * hours) + (220 * mins /60); //TODO 24-hours and 60 - min ??
+        String theDate = getDate(start, "hh:mm");
+        int hours = Integer.valueOf(theDate.substring(0,2));
+        int min = Integer.valueOf(theDate.substring(3,5));
+        return (220 * hours) + (220* min /60);
 
+
+    }
+    public static String getDate(long milliSeconds, String dateFormat)
+    {
+        // Create a DateFormatter object for displaying date in specified format.
+        SimpleDateFormat formatter = new SimpleDateFormat(dateFormat);
+
+        // Create a calendar object that will convert the date and time value in milliseconds to date.
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(milliSeconds);
+        return formatter.format(calendar.getTime());
     }
 
     private int getDayPixel(long start){
-        long time = (int)(start- now.getValue()) /(int)SEC_DAYS;
-        int days = (int) (time / (SEC_DAYS));
-        time -= days*SEC_DAYS;
-        int hours = (int) (time / SEC_HOURS);
-        time -= hours * SEC_HOURS;
-        int  mins = (int) (time / SEC_MIN);
-        return (60 * hours) + mins; //TODO 24-hours and 60 - min ??
+        String theDate = getDate(start, "hh:mm");
+        int hours = Integer.valueOf(theDate.substring(0,2));
+        int mins = Integer.valueOf(theDate.substring(3,5));
+        return (60 * hours) +  mins;
     }
 
     private void getResultsFromApi() {
@@ -238,7 +246,7 @@ public class Scheduler extends Activity
     }
 
     private void displayEvents(){
-        for(mEvent m: getEvents()){
+        for(mEvent m: allEvents){
             start = m.getStart().getValue();
             end = m.getEnd().getValue();
             whichDay = getDay(start);
