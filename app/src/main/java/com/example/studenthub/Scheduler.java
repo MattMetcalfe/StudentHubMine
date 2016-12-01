@@ -260,7 +260,7 @@ public class Scheduler extends Activity
                 TextView newPost = new TextView(this);
                 newPost.setText(m.getTitle());
                 newPost.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                newPost.setBackgroundColor(Color.WHITE);
+                newPost.setBackgroundColor(Color.BLACK);
                 newPost.setTextColor(Color.WHITE);
                 params = new LinearLayout.LayoutParams(getDayPixel(end) - getDayPixel(start), ViewGroup.LayoutParams.MATCH_PARENT);//needs to be the hour and min value
                 params.setMargins(getDayPixel(start),105,0,0);//600 needs to be start time
