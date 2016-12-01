@@ -68,7 +68,7 @@ public class Scheduler extends Activity
     private LinearLayout.LayoutParams params;
     private TextView newEvent;
     private DateTime now = new DateTime(System.currentTimeMillis());
-    //TODO private LinearLayout today = (LinearLayout)  findViewById(R.id.dayCalendar);
+    private RelativeLayout today;
 
     public static List<mEvent> getEvents(){
         return(allEvents);
@@ -89,7 +89,7 @@ public class Scheduler extends Activity
                 getApplicationContext(), Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff());
         getResultsFromApi();
-
+           // getDataFromApi();
         setUpCalendar();
             displayEvents();
     }
@@ -212,6 +212,16 @@ public class Scheduler extends Activity
 
     }
 
+    private int getDayPixel(long start){
+        long time = (int)(start- now.getValue()) /(int)SEC_DAYS;
+        int days = (int) (time / (SEC_DAYS));
+        time -= days*SEC_DAYS;
+        int hours = (int) (time / SEC_HOURS);
+        time -= hours * SEC_HOURS;
+        int  mins = (int) (time / SEC_MIN);
+        return (60 * hours) + mins;
+    }
+
     private void getResultsFromApi() {
         if (! isGooglePlayServicesAvailable()) {
             acquireGooglePlayServices();
@@ -224,20 +234,30 @@ public class Scheduler extends Activity
     }
 
     private void displayEvents(){
-        for(mEvent m: allEvents){
+        for(mEvent m: getEvents()){
             start = m.getStart().getValue();
+            end = m.getEnd().getValue();
             whichDay = getDay(start);
             if(whichDay.equals((RelativeLayout) findViewById(R.id.day1HeaderRelativeLayout))){
                 continue;
             }
             startPixel = getPixel(start);
             pixelLength = getPixel(end) - startPixel;
-            if(whichDay.equals((RelativeLayout) findViewById(R.id.day1RelativeLayout))){
-                //TODO add to today view fml
+            if(whichDay.equals((RelativeLayout) findViewById(R.id.day1RelativeLayout))){ //add to today view
+                today = (RelativeLayout) findViewById(R.id.dayCalendar);
+                TextView newPost = new TextView(this);
+                newPost.setText("hello"); //getText()
+                newPost.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                newPost.setBackgroundColor(Color.WHITE);
+                newPost.setTextColor(Color.WHITE);
+                params = new LinearLayout.LayoutParams(getDayPixel(end) - getDayPixel(start), ViewGroup.LayoutParams.MATCH_PARENT);//needs to be the hour and min value
+                params.setMargins(getDayPixel(start),105,0,0);//600 needs to be start time
+                newPost.setLayoutParams(params);
+                today.addView(newPost);
 
             }
 
-            end = m.getEnd().getValue();
+
             newEvent = new TextView(this);
             newEvent.setText(m.getTitle());
             newEvent.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
@@ -422,6 +442,8 @@ public class Scheduler extends Activity
         dialog.show();
     }
 
+
+
     /**
      * An asynchronous task that handles the Google Calendar API call.
      * Placing the API calls in their own task ensures the UI stays responsive.
@@ -461,7 +483,7 @@ public class Scheduler extends Activity
          * @throws IOException
          */
 
-        private List<String> getDataFromApi() throws IOException {
+        public List<String> getDataFromApi() throws IOException { //List<String>
             // List the next 10 events from the primary calendar.
             DateTime now = new DateTime(System.currentTimeMillis());
             DateTime future = new DateTime(now.getValue() + 604800000);
