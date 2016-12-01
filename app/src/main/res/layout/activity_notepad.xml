@@ -8,6 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/myblue"
     tools:context="com.example.studenthub.NotePad">
 
     <!--<android.support.v7.widget.Toolbar-->
@@ -23,6 +24,7 @@
 
     <!--MY WORK STARTS HERE-->
     <!--DELETE OLD TEXT FIELD (note)-->
+
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -56,7 +58,9 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_gravity="bottom|end"
-        android:layout_toEndOf="@+id/NoteNavigation" />
+        android:layout_toEndOf="@+id/NoteNavigation"
+        android:background="#CC5500"
+        android:textColor="#ffffff"/>
 
     <ListView
         android:layout_width="wrap_content"
@@ -67,7 +71,7 @@
         android:layout_alignParentStart="true"
         android:layout_toStartOf="@+id/noteInput"
         android:layout_toLeftOf="@+id/noteInput"
-        android:background="@color/myblue"
+        android:background="@color/colorPrimary"
         android:choiceMode="singleChoice"
         android:scrollingCache="false"
         android:smoothScrollbar="true"
@@ -105,6 +109,6 @@
         android:id="@+id/DeleteNoteButton"
         android:layout_below="@+id/noteInput"
         android:layout_toLeftOf="@+id/SaveNoteButton"
-        android:layout_toStartOf="@+id/SaveNoteButton" />
+        android:layout_toStartOf="@+id/SaveNoteButton"/>
 
 </RelativeLayout>
