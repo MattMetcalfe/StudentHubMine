@@ -228,7 +228,7 @@ public class Scheduler extends Activity
     }
 
     private int getDayPixel(long start){
-        String theDate = getDate(start, "hh:mm");
+        String theDate = getDate(start, "HH:mm");
         int hours = Integer.valueOf(theDate.substring(0,2));
         int mins = Integer.valueOf(theDate.substring(3,5));
         return (60 * hours) +  mins;
