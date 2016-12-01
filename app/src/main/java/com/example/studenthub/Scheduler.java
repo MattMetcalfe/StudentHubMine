@@ -265,7 +265,7 @@ public class Scheduler extends Activity
                 params = new LinearLayout.LayoutParams(getDayPixel(end) - getDayPixel(start), ViewGroup.LayoutParams.MATCH_PARENT);//needs to be the hour and min value
                 params.setMargins(getDayPixel(start),105,0,0);//600 needs to be start time
                 newPost.setLayoutParams(params);
-                today.addView(newPost);
+                today.addView(newPost);//
 
             }
 
