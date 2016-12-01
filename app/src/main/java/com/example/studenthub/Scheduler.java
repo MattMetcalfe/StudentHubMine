@@ -25,6 +25,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -50,8 +51,6 @@ import pub.devrel.easypermissions.EasyPermissions;
 public class Scheduler extends Activity
         implements EasyPermissions.PermissionCallbacks {
     GoogleAccountCredential mCredential;
-    private TextView mOutputText;
-    private Button mCallApiButton;
     ProgressDialog mProgress;
 
     static final int REQUEST_ACCOUNT_PICKER = 1000;
@@ -71,39 +70,6 @@ public class Scheduler extends Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LinearLayout activityLayout = new LinearLayout(this);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT);
-        activityLayout.setLayoutParams(lp);
-        activityLayout.setOrientation(LinearLayout.VERTICAL);
-        activityLayout.setPadding(16, 16, 16, 16);
-
-        ViewGroup.LayoutParams tlp = new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
-
-        mCallApiButton = new Button(this);
-        mCallApiButton.setText(BUTTON_TEXT);
-        mCallApiButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCallApiButton.setEnabled(false);
-                mOutputText.setText("");
-                getResultsFromApi();
-                mCallApiButton.setEnabled(true);
-            }
-        });
-        activityLayout.addView(mCallApiButton);
-
-        mOutputText = new TextView(this);
-        mOutputText.setLayoutParams(tlp);
-        mOutputText.setPadding(16, 16, 16, 16);
-        mOutputText.setVerticalScrollBarEnabled(true);
-        mOutputText.setMovementMethod(new ScrollingMovementMethod());
-        mOutputText.setText(
-                "Click the \'" + BUTTON_TEXT +"\' button to test the API.");
-        activityLayout.addView(mOutputText);
 
         mProgress = new ProgressDialog(this);
         mProgress.setMessage("Calling Google Calendar API ...");
@@ -115,7 +81,91 @@ public class Scheduler extends Activity
                 getApplicationContext(), Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff());
         getResultsFromApi();
+        setUpCalendar();
     }
+
+    private void setUpCalendar(){
+        TextView month = (TextView) findViewById(R.id.currentMonthTextView);
+        TextView year = (TextView) findViewById(R.id.currentYearTextView);
+        DateTime now = new DateTime(System.currentTimeMillis());
+        String stNow = now.toString();
+        month.setText(getMonth(stNow.substring(5,7)));
+        TextView day1 = (TextView) findViewById(R.id.day1TextView);
+        //TextView date1 = (TextView) findViewById(R.id.day1DateTextView);
+        day1.setText(getDayOfWeek(now.getValue()));
+        //date1.setText(stNow.substring(8,10));
+        TextView day2 = (TextView) findViewById(R.id.day2TextView);
+        day2.setText(getDayOfWeek(now.getValue() + (1000*60*60*24)));
+        TextView day3 = (TextView) findViewById(R.id.day3TextView);
+        day3.setText(getDayOfWeek(now.getValue()+ 2*(1000*60*60*24)));
+        TextView day4 = (TextView) findViewById(R.id.day4TextView);
+        day4.setText(getDayOfWeek(now.getValue()+ 3*(1000*60*60*24)));
+        TextView day5 = (TextView) findViewById(R.id.day5TextView);
+        day5.setText(getDayOfWeek(now.getValue()+ 4*(1000*60*60*24)));
+        TextView day6 = (TextView) findViewById(R.id.day6TextView);
+        day6.setText(getDayOfWeek(now.getValue()+ 5*(1000*60*60*24)));
+        TextView day7 = (TextView) findViewById(R.id.day7TextView);
+        day7.setText(getDayOfWeek(now.getValue()+ 6*(1000*60*60*24)));
+
+
+    }
+
+    private String getDayOfWeek(long nowMili){
+        // January 1 1970 was a Thursday
+
+        // get in terms of days
+        nowMili = nowMili / (1000*60*60*24);
+        // Get remainter when divided by 7 and we are that many days from Thursday
+        nowMili = nowMili % 7;
+        switch((int)nowMili){
+            case 0:
+                return "Thu";
+            case 1:
+                return "Fri";
+            case 2:
+                return "Sat";
+            case 3:
+                return "Sun";
+            case 4:
+                return "Mon";
+            case 5:
+                return "Tue";
+            case 6:
+                return "Wed";
+        }
+        return "";
+    }
+
+    private String getMonth(String input){
+        switch(input){
+            case "01":
+                return "Jan";
+            case "02":
+                return "Feb";
+            case "03":
+                return "Mar";
+            case "04":
+                return "Apr";
+            case "05":
+                return "May";
+            case "06":
+                return "Jun";
+            case "07":
+                return "Jul";
+            case "08":
+                return "Aug";
+            case "09":
+                return "Sep";
+            case "10":
+                return "Oct";
+            case "11":
+                return "Nov";
+            case "12":
+                return "Dec";
+        }
+        return"";
+    }
+
 
     private void getResultsFromApi() {
         if (! isGooglePlayServicesAvailable()) {
@@ -123,7 +173,6 @@ public class Scheduler extends Activity
         } else if (mCredential.getSelectedAccountName() == null) {
             chooseAccount();
         } else if (! isDeviceOnline()) {
-            mOutputText.setText("No network connection available.");
         } else {
             new MakeRequestTask(mCredential).execute();
         }
@@ -181,9 +230,6 @@ public class Scheduler extends Activity
         switch(requestCode) {
             case REQUEST_GOOGLE_PLAY_SERVICES:
                 if (resultCode != RESULT_OK) {
-                    mOutputText.setText(
-                            "This app requires Google Play Services. Please install " +
-                                    "Google Play Services on your device and relaunch this app.");
                 } else {
                     getResultsFromApi();
                 }
@@ -389,7 +435,6 @@ public class Scheduler extends Activity
 
         @Override
         protected void onPreExecute() {
-            mOutputText.setText("");
             mProgress.show();
         }
 
@@ -397,7 +442,6 @@ public class Scheduler extends Activity
         protected void onPostExecute(List<String> output) {
             mProgress.hide();
             if (output == null || output.size() == 0) {
-                mOutputText.setText("No results returned.");
             } else {
                 output.add(0, "Data retrieved using the Google Calendar API:");
                 //mOutputText.setText(TextUtils.join("\n", output));
@@ -417,11 +461,8 @@ public class Scheduler extends Activity
                             ((UserRecoverableAuthIOException) mLastError).getIntent(),
                             Scheduler.REQUEST_AUTHORIZATION);
                 } else {
-                    mOutputText.setText("The following error occurred:\n"
-                            + mLastError.getMessage());
                 }
             } else {
-                mOutputText.setText("Request cancelled.");
             }
         }
     }
