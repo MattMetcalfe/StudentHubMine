@@ -186,9 +186,13 @@ public class Scheduler extends Activity
     }
 
     private RelativeLayout getDay(long time){
-            long diff =  time - now.getValue();
-        int days = (int) (diff / (SEC_DAYS));
-        switch(days) {
+       String nowDay = getDate(now.getValue(), "dd");
+        String timedDay = getDate(time, "dd");
+        int dayNumber = Integer.valueOf(nowDay);
+        int timeNumber = Integer.valueOf(timedDay);
+            int diff =  timeNumber - dayNumber;
+
+        switch(diff) {
             case 0:
                 return (RelativeLayout) findViewById(R.id.day1RelativeLayout);
             case 1:
