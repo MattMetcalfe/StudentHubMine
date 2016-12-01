@@ -128,11 +128,13 @@
 
                     <Button
                         android:text="@string/plus"
-                        android:layout_height="30dp"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
+                        android:textAlignment="viewStart"
                         android:id="@+id/newEventButton"
-                        android:layout_width="30dp" />
+                        android:layout_height="60dp"
+                        android:layout_width="32dp"
+                        android:paddingTop="6dp" />
                 </RelativeLayout>
 
             </LinearLayout>
