@@ -246,7 +246,7 @@ public class Scheduler extends Activity
             if(whichDay.equals((RelativeLayout) findViewById(R.id.day1RelativeLayout))){ //add to today view
                 today = (RelativeLayout) findViewById(R.id.dayCalendar);
                 TextView newPost = new TextView(this);
-                newPost.setText("hello"); //getText()
+                newPost.setText(m.getTitle());
                 newPost.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                 newPost.setBackgroundColor(Color.WHITE);
                 newPost.setTextColor(Color.WHITE);
