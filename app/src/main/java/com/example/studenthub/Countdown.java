@@ -115,7 +115,7 @@ public class Countdown extends AppCompatActivity {
             dispText.setText(thisEvent.getTitle());
             if(dispText.getText().length() > 30) {
                 String cut = (String) dispText.getText();
-                cut = cut.substring(0, 28);
+                cut = cut.substring(0, 25);
                 dispText.setText(cut);
             }
             dispText.setTextColor(Color.parseColor("#FFFFFF"));
@@ -125,6 +125,7 @@ public class Countdown extends AppCompatActivity {
             TextView dispVal = new TextView(this);
             dispVal.setGravity(Gravity.RIGHT);
             dispVal.setText(thisEvent.getTimeTill());
+            //dispVal.setGravity(Gravity.END);
 
             dispVal.setTextColor(getUrgencyColor(thisEvent.getTimeTill()));
             dispVal.setTextSize(20);

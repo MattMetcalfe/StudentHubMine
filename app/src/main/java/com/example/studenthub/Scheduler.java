@@ -91,10 +91,14 @@ public class Scheduler extends Activity
         getResultsFromApi();
            // getDataFromApi();
         setUpCalendar();
-            displayEvents();
+            //displayEvents();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
 
+    }
 
     private void setUpCalendar(){
         TextView month = (TextView) findViewById(R.id.currentMonthTextView);
@@ -509,6 +513,7 @@ public class Scheduler extends Activity
                 tmpEvent.setStart(item.getStart().getDateTime());
                 allEvents.add(tmpEvent);
             }
+            displayEvents();
 
             for (Event event : items) {
                 DateTime start = event.getStart().getDateTime();
