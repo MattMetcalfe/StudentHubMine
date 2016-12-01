@@ -1,5 +1,6 @@
 package com.example.studenthub;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
@@ -83,7 +84,7 @@ public class Todo extends AppCompatActivity {
         scrollview.addView(linearlayout);
 ///////////////////TITLE TextView//////////////////////////////////
         TextView title = new TextView(this);
-        title.setText("TO DO LIST:");
+        title.setText("TO DO LIST");
         title.setTextSize(60);
         title.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         title.setTextColor(Color.parseColor("#ffffff"));
@@ -97,6 +98,13 @@ public class Todo extends AppCompatActivity {
         final TaskDBHandler db = new TaskDBHandler(this);    //db = task database
         final List<Task> taskHistory = db.getAllTasks();     //taskHistory = list of all tasks in db
         //PRINT ALL TASKS FROM DATA BASE ON CREATE
+        final TextView allDone = new TextView(this);
+        if (taskHistory.size() == 0){
+            allDone.setTextSize(30);
+            allDone.setText("Congrats, You're Done!");
+            allDone.setTextColor(Color.parseColor("#FFFFFF"));
+            allDone.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        }
         for (int t =0; t<taskHistory.size();t++){
             final Task dbTask = taskHistory.get(t);
             final CheckBox dbChbx = new CheckBox(getApplicationContext());
@@ -119,41 +127,48 @@ public class Todo extends AppCompatActivity {
 ////////////////////SAVE TASK Button////////////////////////////////
         Button AddButton = new Button(this);
         AddButton.setText("ADD TASK");
+        AddButton.setBackgroundColor(Color.parseColor("#CC5500"));
+        AddButton.setTextColor(Color.parseColor("#FFFFFF"));
 
         AddButton.setOnClickListener(
                 new View.OnClickListener(){
                     public void onClick(View v){
                         final CheckBox chbx = new CheckBox(getApplicationContext());
                         String inp = TaskInput.getText().toString();
-                        final Task task = new Task(inp,taskHistory.size());
-                        taskHistory.add(task);
-                        db.addTask(task);
-                        chbx.setText(task.getLabel());
-                       // chbx.setText(String.valueOf(db.getAllTasks().size()));
-                        chbx.setChecked(false);
-                        chbx.setOnClickListener(
-                                new View.OnClickListener(){
-                                    public void onClick(View v){
-                                        //delete from db
-                                        db.deleteTask(task);
-                                        //remove from linear layout
-                                        linearlayout.removeView(chbx);
+                        if( !(inp.equals("") || inp == null)) {
+                            final Task task = new Task(inp, taskHistory.size());
+                            taskHistory.add(task);
+                            db.addTask(task);
+                            chbx.setText(task.getLabel());
+                            // chbx.setText(String.valueOf(db.getAllTasks().size()));
+                            chbx.setChecked(false);
+                            chbx.setOnClickListener(
+                                    new View.OnClickListener() {
+                                        public void onClick(View v) {
+                                            //delete from db
+                                            db.deleteTask(task);
+                                            //remove from linear layout
+                                            linearlayout.removeView(chbx);
+                                        }
                                     }
-                                }
-                        );
-                        //chbx.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                        chbx.setTextSize(25);
-                        chbx.setTextColor(Color.parseColor("#ffffff"));
-                        linearlayout.addView(chbx);
-                        TaskInput.setText("");
+                            );
+                            //chbx.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                            chbx.setTextSize(25);
+                            chbx.setTextColor(Color.parseColor("#ffffff"));
+
+                            masterLinear.removeView(allDone);
+                            linearlayout.addView(chbx);
+                        }
+                            TaskInput.setText("");
                     }
                 }
         );
 ///////////////////ADD ELEMENTS TO MASTER LAYOUT//////////////////
         masterLinear.addView(title);
-        masterLinear.addView(scrollview);
         masterLinear.addView(TaskInput);
         masterLinear.addView(AddButton);
+        masterLinear.addView(scrollview);
+        masterLinear.addView(allDone);
         masterLinear.setBackgroundColor(Color.parseColor("#808fed"));
         setContentView(masterLinear);
 
