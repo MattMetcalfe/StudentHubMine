@@ -107,17 +107,17 @@ public class Scheduler extends Activity
         day1.setText(getDayOfWeek(now.getValue()));
         //date1.setText(stNow.substring(8,10));
         TextView day2 = (TextView) findViewById(R.id.day2TextView);
-        day2.setText(getDayOfWeek(now.getValue() + (1000*60*60*24)));
+        day2.setText(getDayOfWeek(now.getValue() + SEC_DAYS));
         TextView day3 = (TextView) findViewById(R.id.day3TextView);
-        day3.setText(getDayOfWeek(now.getValue()+ 2*(1000*60*60*24)));
+        day3.setText(getDayOfWeek(now.getValue()+ 2*SEC_DAYS));
         TextView day4 = (TextView) findViewById(R.id.day4TextView);
-        day4.setText(getDayOfWeek(now.getValue()+ 3*(1000*60*60*24)));
+        day4.setText(getDayOfWeek(now.getValue()+ 3*SEC_DAYS));
         TextView day5 = (TextView) findViewById(R.id.day5TextView);
-        day5.setText(getDayOfWeek(now.getValue()+ 4*(1000*60*60*24)));
+        day5.setText(getDayOfWeek(now.getValue()+ 4*SEC_DAYS));
         TextView day6 = (TextView) findViewById(R.id.day6TextView);
-        day6.setText(getDayOfWeek(now.getValue()+ 5*(1000*60*60*24)));
+        day6.setText(getDayOfWeek(now.getValue()+ 5*SEC_DAYS));
         TextView day7 = (TextView) findViewById(R.id.day7TextView);
-        day7.setText(getDayOfWeek(now.getValue()+ 6*(1000*60*60*24)));
+        day7.setText(getDayOfWeek(now.getValue()+ 6*SEC_DAYS));
 
 
     }
@@ -126,7 +126,7 @@ public class Scheduler extends Activity
         // January 1 1970 was a Thursday
 
         // get in terms of days
-        nowMili = nowMili / (1000*60*60*24);
+        nowMili = nowMili / SEC_DAYS;
         // Get remainter when divided by 7 and we are that many days from Thursday
         nowMili = nowMili % 7;
         switch((int)nowMili){
@@ -208,7 +208,7 @@ public class Scheduler extends Activity
         int hours = (int) (time / SEC_HOURS);
         time -= hours * SEC_HOURS;
         int  mins = (int) (time / SEC_MIN);
-         return (220 * hours) + (220 * mins /60);
+         return (220 * hours) + (220 * mins /60); //TODO 24-hours and 60 - min ??
 
     }
 
@@ -219,7 +219,7 @@ public class Scheduler extends Activity
         int hours = (int) (time / SEC_HOURS);
         time -= hours * SEC_HOURS;
         int  mins = (int) (time / SEC_MIN);
-        return (60 * hours) + mins;
+        return (60 * hours) + mins; //TODO 24-hours and 60 - min ??
     }
 
     private void getResultsFromApi() {
