@@ -10,7 +10,6 @@
     <style name="AppTheme2" parent="Theme.AppCompat.Light">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimaryTurq</item>
-
     </style>
 
 </resources>
