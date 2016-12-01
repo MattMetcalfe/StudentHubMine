@@ -31,19 +31,16 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
-import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Date;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -58,16 +55,26 @@ public class Scheduler extends Activity
     static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
     static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
 
+    private static final long SEC_DAYS = 1000*60*60*24;
+    private static final long SEC_HOURS = 1000*60*60;
+    private static final long SEC_MIN = 1000*60;
     private static final String BUTTON_TEXT = "Get Calendar Events";
     private static final String PREF_ACCOUNT_NAME = "accountName";
     private static final String[] SCOPES = { CalendarScopes.CALENDAR /* This was CALENDAR_READONLY*/ };
     private static List<mEvent> allEvents = new ArrayList<>();
-
+    private long start, end;
+    private int startPixel, pixelLength;
+    private RelativeLayout whichDay;
+    private LinearLayout.LayoutParams params;
+    private TextView newEvent;
+    private DateTime now = new DateTime(System.currentTimeMillis());
 
     public static List<mEvent> getEvents(){
         return(allEvents);
     }
-    @Override
+
+
+        @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -82,12 +89,15 @@ public class Scheduler extends Activity
                 .setBackOff(new ExponentialBackOff());
         getResultsFromApi();
         setUpCalendar();
+            displayEvents();
     }
+
+
 
     private void setUpCalendar(){
         TextView month = (TextView) findViewById(R.id.currentMonthTextView);
         TextView year = (TextView) findViewById(R.id.currentYearTextView);
-        DateTime now = new DateTime(System.currentTimeMillis());
+
         String stNow = now.toString();
         month.setText(getMonth(stNow.substring(5,7)));
         TextView day1 = (TextView) findViewById(R.id.day1TextView);
@@ -166,6 +176,39 @@ public class Scheduler extends Activity
         return"";
     }
 
+    private RelativeLayout getDay(long time){
+            long diff =  time - now.getValue();
+        int days = (int) (diff / (SEC_DAYS));
+        switch(days) {
+            case 0:
+                return (RelativeLayout) findViewById(R.id.day1RelativeLayout);
+            case 1:
+                return (RelativeLayout) findViewById(R.id.day2RelativeLayout);
+            case 2:
+                return (RelativeLayout) findViewById(R.id.day3RelativeLayout);
+            case 3:
+                return (RelativeLayout) findViewById(R.id.day4RelativeLayout);
+            case 4:
+                return (RelativeLayout) findViewById(R.id.day5RelativeLayout);
+            case 5:
+                return (RelativeLayout) findViewById(R.id.day6RelativeLayout);
+            case 6:
+                return (RelativeLayout) findViewById(R.id.day7RelativeLayout);
+            default:
+                return null;
+        }
+    }
+
+    private int getPixel(long start){
+        long time = (int)(start- now.getValue()) /(int)SEC_DAYS;
+         int days = (int) (time / (SEC_DAYS));
+        time -= days*SEC_DAYS;
+        int hours = (int) (time / SEC_HOURS);
+        time -= hours * SEC_HOURS;
+        int  mins = (int) (time / SEC_MIN);
+         return (220 * hours) + (220 * mins /60);
+
+    }
 
     private void getResultsFromApi() {
         if (! isGooglePlayServicesAvailable()) {
@@ -175,6 +218,33 @@ public class Scheduler extends Activity
         } else if (! isDeviceOnline()) {
         } else {
             new MakeRequestTask(mCredential).execute();
+        }
+    }
+
+    private void displayEvents(){
+        for(mEvent m: allEvents){
+            start = m.getStart().getValue();
+            whichDay = getDay(start);
+            if(whichDay.equals(null)){
+                continue;
+            }
+            startPixel = getPixel(start);
+            pixelLength = getPixel(end) - startPixel;
+            if(whichDay.equals((RelativeLayout) findViewById(R.id.day1RelativeLayout))){
+                //TODO add to today view fml
+
+            }
+
+            end = m.getEnd().getValue();
+            newEvent = new TextView(this);
+            newEvent.setText(m.getTitle());
+            newEvent.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            newEvent.setBackgroundColor(Color.BLACK); //TODO vary colors?
+            newEvent.setTextColor(Color.WHITE);
+            params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, pixelLength);//needs to be the hour and min value
+            params.setMargins(0,startPixel,0,0); //600 needs to be start time
+            newEvent.setLayoutParams(params);
+            whichDay.addView(newEvent);
         }
     }
 
