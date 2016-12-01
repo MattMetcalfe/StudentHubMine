@@ -245,7 +245,7 @@ public class Scheduler extends Activity
         }
     }
 
-    private void displayEvents(){
+    private void displayEvents() {
         for(mEvent m: allEvents){
             start = m.getStart().getValue();
             end = m.getEnd().getValue();
@@ -521,8 +521,14 @@ public class Scheduler extends Activity
                 tmpEvent.setStart(item.getStart().getDateTime());
                 allEvents.add(tmpEvent);
             }
-            displayEvents();
+           //runOnUiThread(displayEvents());
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
 
+                    displayEvents();
+                }
+            });
             for (Event event : items) {
                 DateTime start = event.getStart().getDateTime();
                 DateTime end = event.getEnd().getDateTime();
