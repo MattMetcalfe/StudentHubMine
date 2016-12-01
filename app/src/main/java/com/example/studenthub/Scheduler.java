@@ -68,6 +68,7 @@ public class Scheduler extends Activity
     private LinearLayout.LayoutParams params;
     private TextView newEvent;
     private DateTime now = new DateTime(System.currentTimeMillis());
+    //TODO private LinearLayout today = (LinearLayout)  findViewById(R.id.dayCalendar);
 
     public static List<mEvent> getEvents(){
         return(allEvents);
@@ -88,6 +89,7 @@ public class Scheduler extends Activity
                 getApplicationContext(), Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff());
         getResultsFromApi();
+
         setUpCalendar();
             displayEvents();
     }
@@ -195,7 +197,7 @@ public class Scheduler extends Activity
             case 6:
                 return (RelativeLayout) findViewById(R.id.day7RelativeLayout);
             default:
-                return null;
+                return (RelativeLayout) findViewById(R.id.day1HeaderRelativeLayout);
         }
     }
 
@@ -225,7 +227,7 @@ public class Scheduler extends Activity
         for(mEvent m: allEvents){
             start = m.getStart().getValue();
             whichDay = getDay(start);
-            if(whichDay.equals(null)){
+            if(whichDay.equals((RelativeLayout) findViewById(R.id.day1HeaderRelativeLayout))){
                 continue;
             }
             startPixel = getPixel(start);
