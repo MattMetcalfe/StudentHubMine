@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- -->
     <color name="colorPrimary">#3f51b5</color>
     <color name="colorPrimaryDark">#303986</color>
     <color name="colorPrimaryTurq">#7FFFD4</color>
     <color name="colorAccent">#ff4081</color>
     <color name="myblue">#808fed</color>
     <color name="ColorSec">#FFFFBB33</color>"
+    <color name="myRed">#FF0000</color>
+
     <string name="sun">Sun</string>
     <string name="mon">Mon</string>
     <string name="tue">Tue</string>
