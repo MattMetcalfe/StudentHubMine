@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -56,11 +57,13 @@ public class Countdown extends AppCompatActivity {
         title.setTextColor(Color.parseColor("#FFFFFF"));
         title.setText("COUNTDOWN");
         title.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        pageLayout.addView(title);
+
 
 
         Button mRefreshButton = new Button(this);
-        mRefreshButton.setText("Click to Refresh");
+        mRefreshButton.setText("Click to Update");
+        mRefreshButton.setBackgroundColor(Color.parseColor("#CC5500"));
+        mRefreshButton.setTextColor(Color.parseColor("#FFFFFF"));
         mRefreshButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,7 +72,6 @@ public class Countdown extends AppCompatActivity {
                 startActivity(getIntent());
             }
         });
-        pageLayout.addView(mRefreshButton);
 
         ScrollView sc = new ScrollView(this);
         sc.setLayoutParams(tlp);
@@ -80,26 +82,20 @@ public class Countdown extends AppCompatActivity {
         tableLayout.setOrientation(LinearLayout.VERTICAL);
         tableLayout.setPadding(16, 16, 16, 16);
 
-        /*
-        LinearLayout activityLayout = new LinearLayout(this);
-        activityLayout.setLayoutParams(lp);
-        activityLayout.setOrientation(LinearLayout.VERTICAL);
-        activityLayout.setPadding(16, 16, 16, 16);*/
 
         for (mEvent thisEvent : mevents) {
+            if (thisEvent.getTimeTill().equals("")){
+            continue;
+        }
             TableRow row = new TableRow(this);
             TextView dispText = new TextView(this);
-            //dispText.setLayoutParams(tlp);
-            //dispText.setPadding(16, 16, 16, 16);
-            //dispText.setVerticalScrollBarEnabled(true);
-            //dispText.setMovementMethod(new ScrollingMovementMethod());
+
             dispText.setText(thisEvent.getTitle());
-            if(dispText.getText().length() > 30){
-                String cut = (String)dispText.getText();
-                cut = cut.substring(0,28);
+            if(dispText.getText().length() > 30) {
+                String cut = (String) dispText.getText();
+                cut = cut.substring(0, 28);
                 dispText.setText(cut);
             }
-            //activityLayout.addView(dispText);
             dispText.setTextColor(Color.parseColor("#FFFFFF"));
             dispText.setTextSize(20);
             row.addView(dispText);
@@ -107,16 +103,31 @@ public class Countdown extends AppCompatActivity {
             TextView dispVal = new TextView(this);
             dispVal.setGravity(Gravity.RIGHT);
             dispVal.setText(thisEvent.getTimeTill());
-            dispVal.setTextColor(Color.parseColor("#FFFFFF"));
+
+            dispVal.setTextColor(getUrgencyColor(thisEvent.getTimeTill()));
             dispVal.setTextSize(20);
             row.addView(dispVal);
             tableLayout.addView(row);
         }
 
+        pageLayout.addView(title);
+        pageLayout.addView(mRefreshButton);
         sc.addView(tableLayout);
         pageLayout.addView(sc);
         pageLayout.setBackgroundColor(Color.parseColor("#808fed"));
         setContentView(pageLayout);
 
+    }
+
+    private int getUrgencyColor(String timeTill){
+        if(timeTill.contains("d")){
+            return(Color.parseColor("#00FF00"));
+        }
+        else if( timeTill.contains("h")){
+            return(Color.parseColor("#FFFF00"));
+        }
+        else{
+            return(Color.parseColor("#FF0000"));
+        }
     }
 }
