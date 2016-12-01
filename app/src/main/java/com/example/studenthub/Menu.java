@@ -20,13 +20,14 @@ public class Menu extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-        openDashboard();
+        /*openDashboard();*/
         openCountdown();
         openNotes();
         openScheduler();
         openTodo();
     }
 
+/*
     public void openDashboard(){
         button_dashboard = (Button)findViewById(R.id.dashboardButton);
         button_dashboard.setOnClickListener(
@@ -38,6 +39,7 @@ public class Menu extends AppCompatActivity {
                 }
         );
     }
+*/
 
     public void openCountdown(){
         button_countdown = (Button)findViewById(R.id.countdownButton);

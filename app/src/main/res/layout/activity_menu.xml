@@ -22,7 +22,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
 
-        <Button
+        <!--<Button
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:text="@string/dashboard"
@@ -32,7 +32,7 @@
             android:clickable="true"
             android:background="@color/ColorSec"
             android:textColor="@android:color/white" />
-
+-->
         
         <Button
             android:layout_width="match_parent"
