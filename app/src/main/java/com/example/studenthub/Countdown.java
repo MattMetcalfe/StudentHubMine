@@ -144,7 +144,7 @@ public class Countdown extends AppCompatActivity {
 
         sc.addView(tableLayout);
         pageLayout.addView(sc);
-        pageLayout.setBackgroundColor(Color.parseColor("#808fed"));
+        pageLayout.setBackgroundColor(Color.parseColor("#0087B8"));
         setContentView(pageLayout);
 
     }

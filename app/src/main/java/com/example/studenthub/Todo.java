@@ -79,7 +79,7 @@ public class Todo extends AppCompatActivity {
         final ScrollView scrollview = new ScrollView(this);
         scrollview.setLayoutParams(scrollparams);
         scrollview.setFillViewport(true);
-        scrollview.setBackgroundColor(Color.parseColor("#808fed"));
+        scrollview.setBackgroundColor(Color.parseColor("#0087B8"));
         linearlayout.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         scrollview.addView(linearlayout);
 ///////////////////TITLE TextView//////////////////////////////////
@@ -169,7 +169,7 @@ public class Todo extends AppCompatActivity {
         masterLinear.addView(AddButton);
         masterLinear.addView(scrollview);
         masterLinear.addView(allDone);
-        masterLinear.setBackgroundColor(Color.parseColor("#808fed"));
+        masterLinear.setBackgroundColor(Color.parseColor("#0087B8"));
         setContentView(masterLinear);
 
     }
