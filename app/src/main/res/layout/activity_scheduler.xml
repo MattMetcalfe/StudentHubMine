@@ -30,10 +30,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp">
 
-                <!--<RelativeLayout-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:layout_weight="1">-->
 
                 <TextView
                     android:text="@string/today"
@@ -41,7 +37,6 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/todayTextView" />
 
-                <!--</RelativeLayout>-->
 
                 <RelativeLayout
                     android:layout_width="0dp"
@@ -126,15 +121,6 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/textView8" />
 
-                    <Button
-                        android:text="@string/plus"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:textAlignment="viewStart"
-                        android:id="@+id/newEventButton"
-                        android:layout_height="60dp"
-                        android:layout_width="32dp"
-                        android:paddingTop="6dp" />
                 </RelativeLayout>
 
             </LinearLayout>
@@ -975,62 +961,9 @@
                         </RelativeLayout>
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:id="@+id/currentTimeMarkerLinearLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="0dp"
-                        android:layout_marginTop="100dp"
-                        android:baselineAligned="false"
-                        android:orientation="horizontal"
-                        android:padding="0dp" >
-
-                        <View
-                            android:layout_width="0dp"
-                            android:layout_height="3dp"
-                            android:layout_weight="1" />
-
-                        <View
-                            android:id="@+id/currentTimeLineView"
-                            android:layout_width="0dp"
-                            android:layout_height="1dp"
-                            android:layout_weight="14"
-                            />
-                    </LinearLayout>
                 </RelativeLayout>
             </ScrollView>
 
-            <View
-                android:id="@+id/refreshView"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:visibility="invisible" />
-
-            <LinearLayout
-                android:id="@+id/refreshLinearLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:padding="5dp"
-                android:background="@drawable/border"
-                android:visibility="invisible">
-
-                <ProgressBar
-                    android:id="@+id/refreshProgressBar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="?android:attr/progressBarStyleLarge" />
-
-                <TextView
-                    android:id="@+id/updatingTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:textSize="24sp"
-                    android:layout_marginRight="5dp"
-                    android:text="@string/updating" />
-
-            </LinearLayout>
 
         </RelativeLayout>
 

@@ -90,7 +90,6 @@ public class Countdown extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
-                // TODO try and make this update the data
                 startActivity(getIntent());
             }
         });

@@ -35,13 +35,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".Dashboard">
-            <intent-filter>
-                <action android:name="com.example.studenthub.Dashboard" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
         <activity android:name=".NotePad">
             <intent-filter>
                 <action android:name="com.example.studenthub.NotePad"

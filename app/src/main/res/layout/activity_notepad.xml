@@ -11,19 +11,6 @@
     android:background="@color/myblue"
     tools:context="com.example.studenthub.NotePad">
 
-    <!--<android.support.v7.widget.Toolbar-->
-    <!--android:id="@+id/my_toolbar"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="?attr/actionBarSize"-->
-    <!--android:background="?attr/colorPrimary"-->
-    <!--android:theme="@style/ThemeOverlay.AppCompat.ActionBar"-->
-    <!--app:popupTheme="@style/ThemeOverlay.AppCompat.Light"-->
-    <!--android:layout_alignParentTop="true"-->
-    <!--android:layout_alignParentLeft="true"-->
-    <!--android:layout_alignParentStart="true" />-->
-
-    <!--MY WORK STARTS HERE-->
-    <!--DELETE OLD TEXT FIELD (note)-->
 
     <EditText
         android:layout_width="wrap_content"

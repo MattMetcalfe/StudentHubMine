@@ -30,31 +30,7 @@ public class Todo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_todo);
 
-     /*  final TaskDBHandler db = new TaskDBHandler(this);    //db = task database
-       final List<Task> taskHistory = db.getAllTasks();     //taskHistory = list of all tasks in db
-//TODO -- PRINT ALL TASKS FROM DATA BASE ON CREATE
-        for (int t =0; t<taskHistory.size();t++){
-            Task task = taskHistory.get(t);
-            CheckBox chbx = new CheckBox(getApplicationContext());
-            String inp = task.getLabel();
-            chbx.setText(task.getLabel());
-            // chbx.setText(String.valueOf(db.getAllTasks().size()));
-            chbx.setChecked(false);
-            chbx.setOnClickListener(
-                    new View.OnClickListener(){
-                        public void onClick(View v){
-                            //delete from db
-                            db.deleteTask(task);
-                            //remove from linear layout
-                            linearlayout.removeView(chbx);
-                        }
-                    }
-            );
-            //chbx.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            chbx.setTextSize(25);
-            chbx.setTextColor(Color.parseColor("#ffffff"));
-            linearlayout.addView(chbx);
-        }*/
+
 //////////////////////////MASTER LINEAR LAYOUT////////////////////////
         final LinearLayout masterLinear = new LinearLayout(this);
         LinearLayout.LayoutParams mlp = new LinearLayout.LayoutParams(

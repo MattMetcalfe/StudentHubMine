@@ -70,24 +70,6 @@ public class NotePad extends AppCompatActivity {
                                     db.addNote(note);
                                     navItems.add(title);
 
-
-                                    ////PRINTING FOR TESTING ONLY////
-                                    /*List<Note> all1 = new ArrayList<Note>();
-                                    all1 = db.getAllNotes();
-                                    String print1 = "";
-                                    for (int i = 0; i < all1.size(); i++) {
-                                        print1 += all1.get(i).getId();
-                                    }
-                                    db.indexReset();
-                                    List<Note> all2 = new ArrayList<Note>();
-                                    all2 = db.getAllNotes();
-                                    String print2 = "";
-                                    for (int i = 0; i < all2.size(); i++) {
-                                        print2 += all2.get(i).getId();
-                                    }
-                                    bodyBox.setText(print1 + "/n/n" + print2);*/
-
-
                                     underEdit = true;
                                     rowUnderEdit = (navItems.size()) - 3;
                                     adapter.notifyDataSetChanged();

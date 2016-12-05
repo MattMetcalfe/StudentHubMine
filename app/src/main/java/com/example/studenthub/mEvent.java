@@ -68,12 +68,6 @@ public class mEvent {
             timeTill += mins + " m ";
         }
 
-        /*miliSec = miliSec - (mins * SEC_MIN);
-        int secs = (int) (miliSec / SEC_SEC);
-        if(secs != 0){
-            timeTill += secs + " sec";
-        }*/
-
         return(timeTill);
     }
 

@@ -22,17 +22,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
 
-        <!--<Button
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:text="@string/dashboard"
-            android:id="@+id/dashboardButton"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:background="@color/ColorSec"
-            android:textColor="@android:color/white" />
--->
         
         <Button
             android:layout_width="match_parent"
