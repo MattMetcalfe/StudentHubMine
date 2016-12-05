@@ -194,7 +194,7 @@ public class Scheduler extends Activity
         String theDate = getDate(start, "HH:mm");
         int hours = Integer.valueOf(theDate.substring(0,2));
         int min = Integer.valueOf(theDate.substring(3,5));
-        return (220 * hours) + (220* min /60);
+        return (210 * hours) + (210* min /60);
 
 
     }
@@ -213,7 +213,7 @@ public class Scheduler extends Activity
         String theDate = getDate(start, "HH:mm");
         int hours = Integer.valueOf(theDate.substring(0,2));
         int mins = Integer.valueOf(theDate.substring(3,5));
-        return (60 * hours) +  mins;
+        return (55 * hours) + ( 55 / 60 * mins) + 5;
     }
 
     private void getResultsFromApi() {

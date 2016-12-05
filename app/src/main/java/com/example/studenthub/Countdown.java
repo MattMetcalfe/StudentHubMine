@@ -105,7 +105,7 @@ public class Countdown extends AppCompatActivity {
 
 
         for (mEvent thisEvent : mevents) {
-            if (thisEvent.getTimeTill().equals("")){
+            if (thisEvent.getTimeTill().equals("") || thisEvent.getStart().getValue() < System.currentTimeMillis()){
             continue;
         }
             TableRow row = new TableRow(this);
