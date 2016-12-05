@@ -130,29 +130,7 @@ public class Scheduler extends Activity
     }
 
     private String getDayOfWeek(long nowMili){
-        // January 1 1970 was a Thursday
-
-        // get in terms of days
-        nowMili = nowMili / SEC_DAYS;
-        // Get remainter when divided by 7 and we are that many days from Thursday
-        nowMili = nowMili % 7;
-        switch((int)nowMili){
-            case 0:
-                return "Thu";
-            case 1:
-                return "Fri";
-            case 2:
-                return "Sat";
-            case 3:
-                return "Sun";
-            case 4:
-                return "Mon";
-            case 5:
-                return "Tue";
-            case 6:
-                return "Wed";
-        }
-        return "";
+        return getDate(nowMili, "EEE");
     }
 
     private String getMonth(String input){
